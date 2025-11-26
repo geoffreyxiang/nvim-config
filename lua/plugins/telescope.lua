@@ -106,14 +106,15 @@ return { -- Fuzzy Finder (files, lsp, etc)
 			})
 		end, { desc = "[S]earch LSP [D]ocument [S]ymbols" })
 
-		-- Slightly advanced example of overriding default behavior and theme
-		vim.keymap.set("n", "<leader>/", function()
-			-- You can pass additional configuration to Telescope to change the theme, layout, etc.
-			builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-				winblend = 10,
-				previewer = false,
-			}))
-		end, { desc = "[/] Fuzzily search in current buffer" })
+		-- NOTE: Commented out in favor of Snacks.picker.lines() (see snacks.lua)
+		-- Reason: Snacks picker is faster, more consistent with other Snacks pickers used in config,
+		-- and has better integration with the Snacks UI system. Telescope is kept for other search operations.
+		-- vim.keymap.set("n", "<leader>/", function()
+		-- 	builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+		-- 		winblend = 10,
+		-- 		previewer = false,
+		-- 	}))
+		-- end, { desc = "[/] Fuzzily search in current buffer" })
 
 		-- It's also possible to pass additional configuration options.
 		--  See `:help telescope.builtin.live_grep()` for information about particular keys

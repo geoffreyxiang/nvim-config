@@ -39,7 +39,7 @@ vim.keymap.set("n", "<leader>lw", "<cmd>set wrap!<CR>", opts) -- toggle line wra
 -- toggle diagnostics (i.e. error messages)
 local diagnostics_active = true
 
-vim.keymap.set("n", "<leader>do", function()
+vim.keymap.set("n", "<leader>Do", function()
 	diagnostics_active = not diagnostics_active
 
 	if diagnostics_active then
@@ -47,7 +47,7 @@ vim.keymap.set("n", "<leader>do", function()
 	else
 		vim.diagnostic.enable(false)
 	end
-end)
+end, { desc = "Toggle diagnostics" })
 
 -- diagnostic keymaps
 vim.keymap.set("n", "[d", function()
@@ -58,5 +58,5 @@ vim.keymap.set("n", "]d", function()
 	vim.diagnostic.jump({ count = 1, float = true })
 end, { desc = "Go to next diagnostic message" })
 
-vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set("n", "<leader>D", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+vim.keymap.set("n", "<leader>Dq", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
