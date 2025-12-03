@@ -9,17 +9,17 @@ return {
 
 		-- Useful status updates for LSP.
 		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-		{ "j-hui/fidget.nvim", opts = {
-			notification = {
-				window = {
-					-- background color opacity in notification
-					winblend = 0,
-				}
-			}
-		}},
-
-		-- Allows extra capabilities provided by nvim-cmp
-		"hrsh7th/cmp-nvim-lsp",
+		{
+			"j-hui/fidget.nvim",
+			opts = {
+				notification = {
+					window = {
+						-- background color opacity in notification
+						winblend = 0,
+					},
+				},
+			},
+		},
 	},
 	config = function()
 		-- Brief aside: **What is LSP?**
@@ -86,7 +86,11 @@ return {
 
 				-- Fuzzy find all the symbols in your current workspace.
 				--  Similar to document symbols, except searches over your entire project.
-				map("<leader>Fw", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[F]ind [W]orkspace symbols (LSP)")
+				map(
+					"<leader>Fw",
+					require("telescope.builtin").lsp_dynamic_workspace_symbols,
+					"[F]ind [W]orkspace symbols (LSP)"
+				)
 
 				-- Rename the variable under your cursor.
 				--  Most Language Servers support renaming across files, etc.
@@ -98,7 +102,7 @@ return {
 
 				-- Opens a popup that displays documentation about the word under your cursor
 				--  See `:help K` for why this keymap
-				map('K', vim.lsp.buf.hover, 'Hover Documentation')
+				map("K", vim.lsp.buf.hover, "Hover Documentation")
 
 				-- WARN: This is not Goto Definition, this is Goto Declaration.
 				--  For example, in C this would take you to the header.
@@ -150,7 +154,11 @@ return {
 		--  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
 		--  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+		-- Use blink.cmp capabilities if available, otherwise use default
+		local ok, blink = pcall(require, "blink.cmp")
+		if ok then
+			capabilities = vim.tbl_deep_extend("force", capabilities, blink.get_lsp_capabilities())
+		end
 
 		-- Enable the following language servers
 		--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
